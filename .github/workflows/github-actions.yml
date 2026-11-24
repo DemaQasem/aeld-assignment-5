@@ -20,7 +20,16 @@ jobs:
           - name: Run full test
             env:
               GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=no"
-            run: ./full-test.sh
+            run: |
+	    echo "=== DISK BEFORE BUILD ==="
+	    df -h
+	    df -i
+	    ./full-test.sh
+	    RESULT=$?
+	    echo "=== DISK AFTER BUILD ==="
+	    df -h
+	    df -i
+	    exit $RESULT
           - name: Cleanup
             if: always()
             run: |
